@@ -11,3 +11,5 @@ As for the management part of the system, staff have the privilege to check subm
 while administrators have higher privileges to change user’s type to grant or revoke event audit permissions.
 In general, users using the system can have their own accounts and do actions on activities or 
 experiences depending on their needs, while managers can change the status or type of events or users.
+
+Demo - https://www.youtube.com/watch?v=ydLlkjLIKhA
