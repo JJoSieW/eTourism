@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  ================================================== -->
+  <meta charset="utf-8">
+  <title>eTourism | <%=title%></title>
+
+  <!-- Mobile Specific Metas
+  ================================================== -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Construction Html5 Template">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="author" content="Themefisher">
+  <meta name="generator" content="Themefisher Constra HTML Template v1.0">
+  
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+  
+  <!-- Themefisher Icon font -->
+  <link rel="stylesheet" href="plugins/themefisher-font/style.css">
+  <!-- bootstrap.min css -->
+  <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+  
+  <!-- Animate css -->
+  <link rel="stylesheet" href="plugins/animate/animate.css">
+  <!-- Slick Carousel -->
+  <link rel="stylesheet" href="plugins/slick/slick.css">
+  <link rel="stylesheet" href="plugins/slick/slick-theme.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <script src="scripts/app.js"></script>
+  <script src="scripts/profile.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body id="body" onload="init()">
+<!-- Start Top Header Bar -->
+<section class="top-header">
+	<div class="container">
+		<div class="row">
+            <div class="col-md-0 col-xs-12 col-sm-4">
+                <div class="contact-number">
+                    <i class="tf-ion-ios-telephone"></i>
+                    <span>020- 1234-1234</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 col-sm-4">
+                <!-- Site Logo -->
+                <div class="logo text-center">
+                  <a href="/">
+                    <!-- replace logo here -->
+                    <svg width="215px" height="29px" viewBox="0 0 150 35" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink">
+                      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="40"
+                        font-family="AustinBold, Austin" font-weight="bold">
+                        <g id="Group" transform="translate(-110.000000, -297.000000)" fill="#000000">
+
+                        </g>
+                      </g>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12 col-sm-4">
+				<ul class="top-menu text-right list-inline">
+					<!-- Search -->
+                    <li class="dropdown search dropdown-slide">
+                        <a href="/experiences"><i class="tf-ion-ios-search-strong"></i> Search</a>
+                    </li><!-- / Search -->
+
+				</ul><!-- / .nav .navbar-nav .navbar-right -->
+			</div>
+		</div>
+	</div>
+</section><!-- End Top Header Bar -->
+<!-- Main Menu Section -->
+<section class="menu row">
+    <div class="row">
+		<div class="content">
+			<ul class="nav nav-tabs">
+				<li><a href="/">Home <span class="label label-badge label-success"></span></a></li>
+				<li class="active"><a href="/profile?username=<%=user.name%>">My profile<span class="label label-badge label-success"></span></a></li>
+			</ul>
+		</div>
+        <nav class="navbar navigation">
+            <div class="container">
+                <div class="navbar-header  pull-right">
+                    <h2 class="menu-title">Main Menu</h2>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div><!-- / .navbar-header -->
+                <!-- Navbar Links -->
+                <div id="navbar" class="navbar-collapse collapse text-center  pull-right">
+                    <ul class="nav navbar-nav">
+
+                        <!-- Experience -->
+                        <li class="dropdown dropdown-slide">
+                            <a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="350"
+                                role="button" aria-haspopup="true" aria-expanded="false">Experience <span
+                                    class="tf-ion-ios-arrow-down"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/experiences">Browse & Book</a></li>
+                                <li><a href="/create">Create</a></li>
+                            </ul>
+                        </li><!-- / Experience -->
+                        <!-- My account -->
+                        <li class="dropdown dropdown-slide">
+                            <a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="350"
+                                role="button" aria-haspopup="true" aria-expanded="false">My account <span
+                                    class="tf-ion-ios-arrow-down"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><div id="profile-link"></div></li>
+                                <li><div id="logout-link" onclick="logout()"></div></li>
+                                <li><div id="login-link"></div></li>
+                                <li><div id="register-link"></div></li>
+                            </ul>
+                        </li><!-- / My account -->
+                    </ul><!-- / .nav .navbar-nav -->
+                </div>
+            </div>
+        </nav>
+            <!--/.navbar-collapse -->
+    </div>
+	<script>
+        let profileLinkDiv = document.getElementById("profile-link");
+        let profileLink = document.createElement("a");
+        user = localStorage.getItem("user");
+        if(user){
+            profileLink.href = "/profile?username="+JSON.parse(user).name;
+        }else{
+            profileLink.href = "/login";
+        }
+        profileLink.innerHTML = 'profile';
+        profileLinkDiv.appendChild(profileLink);
+        user = localStorage.getItem("user");
+        if(user){
+            let logoutLinkDiv = document.getElementById("logout-link");
+            let logoutLink = document.createElement("a");
+            logoutLink.innerHTML = 'log out';
+            logoutLinkDiv.appendChild(logoutLink);
+        }else{
+            let loginLinkDiv = document.getElementById("login-link");
+            let loginLink = document.createElement("a");
+			localStorage.setItem("lastHref",location.href);
+            loginLink.href = "/login";
+            loginLink.innerHTML = 'log in';
+            loginLinkDiv.appendChild(loginLink);
+            let registerLinkDiv = document.getElementById("register-link");
+            let registerLink = document.createElement("a");
+            registerLink.href = "/register";
+            registerLink.innerHTML = 'sign up';
+            registerLinkDiv.appendChild(registerLink);
+        }
+    </script>
+</section>
+
+<div class="container">
+<div class="row">
+	<div class="col-md-15">
+	<div class="dashboard-wrapper dashboard-user-profile">
+		<div class="media">
+		<div class="pull-left">
+			<!-- avatar -->
+			<div style="padding-left:25%; padding-right:25%">
+				<h4 style = "text-align:center" id="username"><b><%=user.name%></b></h4>
+
+				<a id="follow" class="btn-reverse3"></a><br><br><br>
+				<input type="file" id="photo" style="display:none" accept="image/*" onchange="uploadProfilePhoto()">
+				<input type="hidden" id="photoSrc" value="<%=user.image%>">
+				<img style="position:relative;left:-25px;top: -25px;" class="media-object user-img" id="profilePhoto" width="80px" height="180px">
+			</div><!-- avatar - end -->
+			<!-- follow info -->
+			<div  class="text-center">
+				<form action="/followsList" method="post">
+					<input type="hidden" id="followersList" name="list">
+					<input type="hidden" name="title" value="who follows <%=user.name%>">
+					<br><input type="submit" id="submitFollowers" style="border: none;background:none">
+				</form>
+				<form action="/followsList" method="post">
+					<input type="hidden" id="followingsList" name="list">
+					<input type="hidden" name="title" value="who <%=user.name%> follows">
+					<br><input type="submit" id="submitFollowings" style="border: none;background:none">
+				</form>
+				<br>
+			</div><!-- follow info - end -->
+<!--comments info start-->
+			<%
+			if(comments.length>0){
+				let avgScore = 0;
+				for(let i=0;i<comments.length;i++){
+					avgScore+=comments[i].scoreToCreator;
+				}
+				avgScore/=comments.length;
+			%>
+			<div  class="text-center">
+			<form action="/comments" method="post">
+				<input type="hidden" name="comments" value="<%=JSON.stringify(comments)%>">
+				<input type="hidden" name="user" value="<%=JSON.stringify(user)%>">
+				<input style="background: white;border: none" type="submit" value="   <%=(comments.length+(comments.length===1?" comment":" comments")+", average score:"+avgScore)%>   ">
+			</form>
+			</div>
+			<%}%>
+			<!-- comments info end-->
+			<!-- buttons -->
+			<div style="text-align:center">
+				<div style="display: none; text-align:center" id="adminDiv">
+					<a href = '/usrDashboard' class="btn-reverse2">User management</a><br><br>
+					<a href = '/dashboard' class="btn-reverse1">Unchecked experiences</a><br><br></li>
+				</div>
+				<div id="staffDiv" style="display: none;text-align: center">
+					<a href = '/dashboard' class="btn-reverse1">check created experiences</a><br>
+				</div>
+			</div>
+			<!-- buttons - end -->
+			<!-- my info -->
+			<div>
+				<ul class="user-profile-list">
+				<li><span style="font-size: 20px">My Info</span></li><hr>
+				<li><span>Full Name:</span><%=user.name%></li><br>
+				<li><span>Email:</span><%=user.email%></li><br>
+				<li><span>Gender:</span><%=user.gender%></li><br>
+				</ul>
+			</div><!-- my info-end -->
+		</div>
+		<div class="media-body">
+		<ul class="user-profile-list">
+			<li id="purchasedExp" style="font-size: 15px"><b>PURCHASED Experiences</b></li><hr>
+			<%for(let i= 0;i<purchasedExperiences.length;i++){
+				let purchasedExp = purchasedExperiences[i];
+			%>
+			<div>
+				<p><img height='300px' width='200px' src="<%=purchasedExp.images[0]%>"></p>
+				<div class="list-group">
+					<a href='/preview?experienceId=<%=purchasedExp._id%>' class="list-group-item">Event: <%=purchasedExp.title%></a>
+					<a href='/profile?username=<%=purchasedExp.creator%>' class="list-group-item">eHost: <%=purchasedExp.creator%></a><br>
+				</div>
+			</div>
+			<%}%>
+		</ul>
+		</div>
+		<div class="media-body">
+			<ul class="user-profile-list">
+				<li id="createdExp" style="font-size: 15px"><b>HOSTED Experiences</b></li><hr>
+				<%for(let i= 0;i<createdExperiences.length;i++){
+					let createdExp = createdExperiences[i];%>
+				<div>
+					<p><img height='300px' width='200px' src="<%=createdExp.images[0]%>"></p>
+					<div class="list-group">
+						<a href='/preview?experienceId=<%=createdExp._id%>' class="list-group-item">Event: <%=createdExp.title%></a><br>
+					</div>
+				</div>
+				<%}%> 
+			</ul>
+		</div>
+	</div>
+		<div>
+	</div>
+	</div>
+	</div>
+</div>
+</div>
+</section>
+
+
+
+<footer class="footer section text-center">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="social-media">
+					<li>
+						<a href="https://www.facebook.com/themefisher">
+							<i class="tf-ion-social-facebook"></i>
+						</a>
+					</li>
+					<li>
+						<a href="https://www.instagram.com/themefisher">
+							<i class="tf-ion-social-instagram"></i>
+						</a>
+					</li>
+					<li>
+						<a href="https://www.twitter.com/themefisher">
+							<i class="tf-ion-social-twitter"></i>
+						</a>
+					</li>
+					<li>
+						<a href="https://www.pinterest.com/themefisher/">
+							<i class="tf-ion-social-pinterest"></i>
+						</a>
+					</li>
+				</ul>
+				<ul class="footer-menu text-uppercase">
+					<li>
+						<a href="contact.html">CONTACT</a>
+					</li>
+					<li>
+						<a href="shop.html">SHOP</a>
+					</li>
+					<li>
+						<a href="pricing.html">Pricing</a>
+					</li>
+					<li>
+						<a href="contact.html">PRIVACY POLICY</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</footer>
+    <!-- 
+    Essential Scripts
+    =====================================-->
+    
+    <!-- Main jQuery -->
+    <script src="plugins/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.1 -->
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Touchpin -->
+    <script src="plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js"></script>
+    <!-- Instagram Feed Js -->
+    <script src="plugins/instafeed/instafeed.min.js"></script>
+    <!-- Video Lightbox Plugin -->
+    <script src="plugins/ekko-lightbox/dist/ekko-lightbox.min.js"></script>
+    <!-- Count Down Js -->
+    <script src="plugins/syo-timer/build/jquery.syotimer.min.js"></script>
+
+    <!-- slick Carousel -->
+    <script src="plugins/slick/slick.min.js"></script>
+    <script src="plugins/slick/slick-animation.min.js"></script>
+
+    <!-- Google Mapl -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+    <script type="text/javascript" src="plugins/google-map/gmap.js"></script>
+
+    <!-- Main Js File -->
+    <script src="js/script.js"></script>
+    
+
+
+  </body>
+  </html>

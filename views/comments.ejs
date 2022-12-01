@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  ================================================== -->
+  <meta charset="utf-8">
+  <title>eTourism | <%=title%></title>
+
+  <!-- Mobile Specific Metas
+  ================================================== -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Construction Html5 Template">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="author" content="Themefisher">
+  <meta name="generator" content="Themefisher Constra HTML Template v1.0">
+  
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+  
+  <!-- Themefisher Icon font -->
+  <link rel="stylesheet" href="plugins/themefisher-font/style.css">
+  <!-- bootstrap.min css -->
+  <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+  
+  <!-- Animate css -->
+  <link rel="stylesheet" href="plugins/animate/animate.css">
+  <!-- Slick Carousel -->
+  <link rel="stylesheet" href="plugins/slick/slick.css">
+  <link rel="stylesheet" href="plugins/slick/slick-theme.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src = "scripts/record.js"></script>
+</head>
+<body>
+<!-- Start Top Header Bar -->
+<section class="top-header">
+	<div class="container">
+		<div class="row">
+            <div class="col-md-0 col-xs-12 col-sm-4">
+                <div class="contact-number">
+                    <i class="tf-ion-ios-telephone"></i>
+                    <span>020- 1234-1234</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 col-sm-4">
+                <!-- Site Logo -->
+                <div class="logo text-center">
+                  <a href="/">
+                    <!-- replace logo here -->
+                    <svg width="215px" height="29px" viewBox="0 0 150 35" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink">
+                      <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="40"
+                        font-family="AustinBold, Austin" font-weight="bold">
+                        <g id="Group" transform="translate(-110.000000, -297.000000)" fill="#000000">
+                        </g>
+                      </g>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-4 col-xs-12 col-sm-4">
+				<ul class="top-menu text-right list-inline">
+					<!-- Search -->
+                    <li class="dropdown search dropdown-slide">
+                        <a href="/experiences"><i class="tf-ion-ios-search-strong"></i> Search</a>
+                    </li><!-- / Search -->
+
+				</ul><!-- / .nav .navbar-nav .navbar-right -->
+			</div>
+		</div>
+	</div>
+</section><!-- End Top Header Bar -->
+<!-- Main Menu Section -->
+<section class="menu row">
+    <div class="row">
+        <div class="content">
+            <ul class="nav nav-tabs">
+                <li><a href="/">Home <span class="label label-badge label-success"></span></a></li>
+                <li><a href="/profile?username=<%=user.name%>"><%=user.name%>'s profile<span class="label label-badge label-success"></span></a></li>
+                <li class="active"><a href="/comments">comment to <%=user.name%><span class="label label-badge label-success"></span></a></li>
+            </ul>
+        </div>
+        <nav class="navbar navigation">
+            <div class="container">
+                <div class="navbar-header  pull-right">
+                    <h2 class="menu-title">Main Menu</h2>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div><!-- / .navbar-header -->
+                <!-- Navbar Links -->
+                <div id="navbar" class="navbar-collapse collapse text-center  pull-right">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown dropdown-slide">
+                            <a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="350"
+                                role="button" aria-haspopup="true" aria-expanded="false">Experience <span
+                                    class="tf-ion-ios-arrow-down"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/experiences">Browse & Book</a></li>
+                                <li><a href="/create">Create</a></li>
+                            </ul>
+                        </li><!-- / Experience -->
+                        <!-- My account -->
+                        <li class="dropdown dropdown-slide">
+                            <a href="#!" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="350"
+                                role="button" aria-haspopup="true" aria-expanded="false">My account <span
+                                    class="tf-ion-ios-arrow-down"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><div id="profile-link"></div></li>
+                                <li><div id="logout-link" onclick="logout()"></div></li>
+                                <li><div id="login-link"></div></li>
+                                <li><div id="register-link"></div></li>
+                            </ul>
+                        </li><!-- / My account -->
+                    </ul><!-- / .nav .navbar-nav -->
+                </div>
+            </div>
+        </nav>
+            <!--/.navbar-collapse -->
+    </div>
+    <script>
+        let profileLinkDiv = document.getElementById("profile-link");
+        let profileLink = document.createElement("a");
+        user = localStorage.getItem("user");
+        if(user){
+            profileLink.href = "/profile?username="+JSON.parse(user).name;
+        }else{
+            profileLink.href = "/login";
+        }
+        profileLink.innerHTML = 'profile';
+        profileLinkDiv.appendChild(profileLink);
+        user = localStorage.getItem("user");
+        if(user){
+            let logoutLinkDiv = document.getElementById("logout-link");
+            let logoutLink = document.createElement("a");
+            logoutLink.innerHTML = 'log out';
+            logoutLinkDiv.appendChild(logoutLink);
+        }else{
+            let loginLinkDiv = document.getElementById("login-link");
+            let loginLink = document.createElement("a");
+            loginLink.href = "/login";
+            loginLink.innerHTML = 'log in';
+            loginLinkDiv.appendChild(loginLink);
+            let registerLinkDiv = document.getElementById("register-link");
+            let registerLink = document.createElement("a");
+            registerLink.href = "/register";
+            registerLink.innerHTML = 'sign up';
+            registerLinkDiv.appendChild(registerLink);
+        }
+    </script>
+
+</section>
+
+
+<section class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content">
+                    <h1 class="page-name">comments to <%=user.name%></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="page-wrapper"  style="padding-top:0px">
+    <div class="checkout shopping">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="post-comments">
+                        <p>avgScore: <%
+                            if(comments.length>0) {
+                                let avgScore = 0;
+                                for (let i = 0; i < comments.length; i++) {
+                                    avgScore += comments[i].scoreToCreator;
+                                }
+                                avgScore /= comments.length;
+                            %><%=avgScore%>
+                        <%}else {%><%=0%>
+                        <%}%></p>
+                        <ul class="media-list comments-list m-bot-50 clearlist">
+                            <% for(let i = 0;i < comments.length;i++){ %>
+                            <!-- Comment Item start-->
+                            <li class="media">
+
+                                <a class="pull-left" href="/profile?username=<%=comments[i].username%>">
+                                    <img class="media-object comment-avatar"
+                                        src="<%= !photos[i]||photos[i]===""?"/images/default_profile_photo.png":photos[i] %>" alt=""
+                                        width="50" height="50"/>
+
+                                </a>
+
+                                <div class="media-body">
+                                    <div class="comment-info">
+                                        <h4 class="comment-author">
+                                            <a href="/profile?username=<%=comments[i].username%>"><%= comments[i].username %></a>
+
+                                        </h4>
+
+                                        <time><%= comments[i].createdAt %></time>
+                    <!--                    <a class="comment-button" href="#!"><i class="tf-ion-chatbubbles"></i>Reply</a>-->
+                                    </div>
+
+                                    <p>
+                                        <%= comments[i].comment %>
+                                    </p>
+                                </div>
+
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+<footer class="footer section text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="social-media">
+                    <li>
+                        <a href="https://www.facebook.com/themefisher">
+                            <i class="tf-ion-social-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/themefisher">
+                            <i class="tf-ion-social-instagram"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.twitter.com/themefisher">
+                            <i class="tf-ion-social-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.pinterest.com/themefisher/">
+                            <i class="tf-ion-social-pinterest"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="footer-menu text-uppercase">
+                    <li>
+                        <a href="contact.html">CONTACT</a>
+                    </li>
+                    <li>
+                        <a href="shop.html">SHOP</a>
+                    </li>
+                    <li>
+                        <a href="pricing.html">Pricing</a>
+                    </li>
+                    <li>
+                        <a href="contact.html">PRIVACY POLICY</a>
+                    </li>
+                </ul>
+                <p class="copyright-text">Copyright &copy;2021, Designed &amp; Developed by <a href="https://themefisher.com/">Themefisher</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+</html>
